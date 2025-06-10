@@ -17,6 +17,9 @@
         <activity
             android:name=".activities.AddEditActivity" />
 
+        <activity android:name=".activities.ExportActivity" />
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

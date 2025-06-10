@@ -18,6 +18,9 @@ import com.eneko.gastospersonalesaplicacion.database.AppDatabase;
 import com.eneko.gastospersonalesaplicacion.model.Gasto;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerGastos = findViewById(R.id.recyclerGastos);
         FloatingActionButton fabAgregar = findViewById(R.id.fabAgregar);
+        FloatingActionButton fabExportar = findViewById(R.id.fabExportar); // <- asegúrate que esté en tu layout
 
         recyclerGastos.setLayoutManager(new LinearLayoutManager(this));
         List<Gasto> gastos = db.gastoDao().getAll();
@@ -47,6 +51,11 @@ public class MainActivity extends AppCompatActivity {
         fabAgregar.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, AddEditActivity.class);
             startActivity(intent);
+        });
+
+        fabExportar.setOnClickListener(view -> {
+            List<Gasto> gastosParaExportar = db.gastoDao().getAll();
+            exportarGastosComoTxt(gastosParaExportar);
         });
 
         adapter.setOnItemLongClickListener(gasto -> {
@@ -63,6 +72,28 @@ public class MainActivity extends AppCompatActivity {
                     .show();
         });
     }
+
+
+    private void exportarGastosComoTxt(List<Gasto> gastos) {
+        StringBuilder data = new StringBuilder();
+        for (Gasto g : gastos) {
+            data.append("Descripción: ").append(g.descripcion).append("\n");
+            data.append("Cantidad: ").append(g.cantidad).append(" €\n");
+            data.append("Categoría: ").append(g.categoria).append("\n");
+            data.append("Fecha: ").append(g.fecha).append("\n\n");
+        }
+
+        File archivo = new File(getExternalFilesDir(null), "gastos_exportados.txt");
+
+        try (FileOutputStream fos = new FileOutputStream(archivo)) {
+            fos.write(data.toString().getBytes());
+            Toast.makeText(this, "Exportado a: " + archivo.getAbsolutePath(), Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error al exportar", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     @Override
     protected void onResume() {
