@@ -17,4 +17,7 @@ public interface GastoDao {
 
     @Update
     void update(Gasto gasto);
+
+    @Query("SELECT SUM(cantidad) FROM Gasto WHERE tipo = :tipo")
+    Double getSumaPorTipo(String tipo);
 }

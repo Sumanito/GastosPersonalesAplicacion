@@ -4,15 +4,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Lista de gastos -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerGastos"
+    <!-- Contenedor principal -->
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp"
-        android:clipToPadding="false"/>
+        android:layout_height="match_parent">
 
-    <!-- Botón para exportar -->
+        <!-- SALDO -->
+        <TextView
+            android:id="@+id/textSaldo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/saldo_total_inicial"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:padding="12dp"
+            android:background="@android:color/white"
+            android:elevation="4dp" />
+
+        <!-- LISTA -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerGastos"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:clipToPadding="false"/>
+    </LinearLayout>
+
+    <!-- FAB: Exportar -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabExportar"
         android:layout_width="wrap_content"
@@ -20,18 +41,18 @@
         android:layout_gravity="bottom|start"
         android:layout_margin="16dp"
         android:src="@android:drawable/ic_menu_save"
-        android:contentDescription="Exportar a txt"
+        android:contentDescription="@string/exportar"
         app:backgroundTint="@color/teal_700" />
 
-    <!-- Botón para añadir -->
+    <!-- FAB: Agregar -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAgregar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:contentDescription="Agregar Gasto"
         android:src="@android:drawable/ic_input_add"
+        android:contentDescription="@string/agregar"
         app:backgroundTint="@color/teal_700" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

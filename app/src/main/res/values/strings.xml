@@ -1,3 +1,48 @@
 <resources>
     <string name="app_name">GastosPersonalesAplicacion</string>
+
+    <string name="descripcion">Descripción</string>
+    <string name="cantidad">Cantidad (€)</string>
+    <string name="categoria">Categoría</string>
+    <string name="fecha">Fecha (dd/mm/yyyy)</string>
+    <string name="guardar">Guardar</string>
+    <string name="ingreso">Ingreso</string>
+    <string name="gasto">Gasto</string>
+    <string name="tipo_gasto">Tipo</string>
+    <string name="saldo_total">Saldo total: %1$s</string>
+    <string name="si">Sí</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="saldo_total_inicial">Saldo total: 0.00 €</string>
+
+
+
+    <string name="exportar">Exportar a .txt</string>
+    <string name="exportado_en">Exportado en: %1$s</string>
+    <string name="error_exportar">Error al exportar</string>
+
+    <string name="agregar">Agregar Gasto</string>
+    <string name="gasto_guardado">Gasto guardado</string>
+    <string name="gasto_eliminado">Gasto eliminado</string>
+    <string name="eliminar">Eliminar gasto</string>
+    <string name="confirmar_eliminar">¿Seguro que quieres eliminar este gasto?</string>
+
+    <string name="completa_campos">Completa todos los campos</string>
+    <string name="cantidad_invalida">Cantidad inválida</string>
+    <string name="selecciona_tipo">Selecciona tipo</string>
+
+    <string name="notificacion_guardado_titulo">Elemento guardado</string>
+    <string name="notificacion_guardado_mensaje">Se ha registrado correctamente un %1$s</string>
+    <string name="canal_nombre">Notificaciones</string>
+    <string name="canal_descripcion">Canal para notificaciones al guardar elementos</string>
+
+    <!-- Ajustes -->
+    <string name="ajustes">Ajustes</string>
+    <string-array name="idioma_nombres">
+        <item>Español</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="idioma_valores">
+        <item>es</item>
+        <item>en</item>
+    </string-array>
 </resources>

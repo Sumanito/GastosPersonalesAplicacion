@@ -15,6 +15,15 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/textTipo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tipo"
+            android:textStyle="italic"
+            android:layout_marginTop="4dp"/>
+
+
+        <TextView
             android:id="@+id/textDescripcion"
             android:text="Descripción del gasto"
             android:textStyle="bold"

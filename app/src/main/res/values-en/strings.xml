@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">PersonalExpensesApp</string>
+
+    <string name="descripcion">Description</string>
+    <string name="cantidad">Amount (€)</string>
+    <string name="categoria">Category</string>
+    <string name="fecha">Date (dd/mm/yyyy)</string>
+    <string name="guardar">Save</string>
+    <string name="ingreso">Income</string>
+    <string name="gasto">Expense</string>
+    <string name="tipo_gasto">Type</string>
+    <string name="saldo_total">Total balance: %1$s</string>
+    <string name="si">Yes</string>
+    <string name="cancelar">Cancel</string>
+    <string name="saldo_total_inicial">Total balance: 0.00 €</string>
+
+
+
+    <string name="exportar">Export to .txt</string>
+    <string name="exportado_en">Exported to: %1$s</string>
+    <string name="error_exportar">Error exporting</string>
+
+    <string name="agregar">Add Expense</string>
+    <string name="gasto_guardado">Expense saved</string>
+    <string name="gasto_eliminado">Expense deleted</string>
+    <string name="eliminar">Delete expense</string>
+    <string name="confirmar_eliminar">Are you sure you want to delete this expense?</string>
+
+    <string name="completa_campos">Please complete all fields</string>
+    <string name="cantidad_invalida">Invalid amount</string>
+    <string name="selecciona_tipo">Select type</string>
+
+    <string name="notificacion_guardado_titulo">Item saved</string>
+    <string name="notificacion_guardado_mensaje">A %1$s has been successfully saved</string>
+    <string name="canal_nombre">Notifications</string>
+    <string name="canal_descripcion">Channel for notifications when saving items</string>
+
+    <string name="ajustes">Settings</string>
+    <string-array name="idioma_nombres">
+        <item>Spanish</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="idioma_valores">
+        <item>es</item>
+        <item>en</item>
+    </string-array>
+</resources>
