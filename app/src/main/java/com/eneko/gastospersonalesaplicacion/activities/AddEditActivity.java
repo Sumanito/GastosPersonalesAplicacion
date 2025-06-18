@@ -7,9 +7,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,11 +24,17 @@ import com.eneko.gastospersonalesaplicacion.database.AppDatabase;
 import com.eneko.gastospersonalesaplicacion.model.Gasto;
 import com.google.android.material.textfield.TextInputEditText;
 
+import android.app.DatePickerDialog;
+import java.util.Calendar;
+import java.util.Locale;
 public class AddEditActivity extends AppCompatActivity {
 
-    private TextInputEditText editDescripcion, editCantidad, editCategoria, editFecha;
+    private TextInputEditText editDescripcion, editCantidad, editFecha;
+    private Spinner spinnerCategoria;
+
     private RadioGroup radioTipo;
     private AppDatabase db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +46,19 @@ public class AddEditActivity extends AppCompatActivity {
 
         editDescripcion = findViewById(R.id.editDescripcion);
         editCantidad = findViewById(R.id.editCantidad);
-        editCategoria = findViewById(R.id.editCategoria);
+        spinnerCategoria = findViewById(R.id.spinnerCategoria);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.categorias_predefinidas, // ID de string-array
+                android.R.layout.simple_spinner_item // Layout por defecto
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCategoria.setAdapter(adapter);
+
         editFecha = findViewById(R.id.editFecha);
+        editFecha.setFocusable(false); // evita que se abra teclado
+        editFecha.setOnClickListener(v -> mostrarSelectorFecha());
+
         radioTipo = findViewById(R.id.radioTipo);
         Button btnGuardar = findViewById(R.id.btnGuardar);
 
@@ -54,7 +73,7 @@ public class AddEditActivity extends AppCompatActivity {
     private void guardarGasto() {
         String descripcion = editDescripcion.getText().toString().trim();
         String cantidadStr = editCantidad.getText().toString().trim();
-        String categoria = editCategoria.getText().toString().trim();
+        String categoria = spinnerCategoria.getSelectedItem().toString();
         String fecha = editFecha.getText().toString().trim();
 
         int selectedTipoId = radioTipo.getCheckedRadioButtonId();
@@ -63,7 +82,12 @@ public class AddEditActivity extends AppCompatActivity {
             return;
         }
         RadioButton selectedTipo = findViewById(selectedTipoId);
-        String tipo = selectedTipo.getText().toString().toLowerCase(); // "ingreso" o "gasto"
+        String tipo;
+        if (selectedTipo.getId() == R.id.radioIngreso) {
+            tipo = "ingreso";
+        } else {
+            tipo = "gasto";
+        }
 
         if (TextUtils.isEmpty(descripcion) || TextUtils.isEmpty(cantidadStr)
                 || TextUtils.isEmpty(categoria) || TextUtils.isEmpty(fecha)) {
@@ -132,4 +156,22 @@ public class AddEditActivity extends AppCompatActivity {
             }
         }
     }
+
+    private void mostrarSelectorFecha() {
+        Calendar calendario = Calendar.getInstance();
+        int año = calendario.get(Calendar.YEAR);
+        int mes = calendario.get(Calendar.MONTH);
+        int dia = calendario.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dialogoFecha = new DatePickerDialog(this,
+                (view, year, month, dayOfMonth) -> {
+                    String fechaFormateada = String.format(Locale.getDefault(), "%02d/%02d/%04d",
+                            dayOfMonth, month + 1, year);
+                    editFecha.setText(fechaFormateada);
+                },
+                año, mes, dia);
+
+        dialogoFecha.show();
+    }
+
 }

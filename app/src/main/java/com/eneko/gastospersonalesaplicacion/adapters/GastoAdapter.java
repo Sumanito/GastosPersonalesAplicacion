@@ -26,7 +26,7 @@ public class GastoAdapter extends RecyclerView.Adapter<GastoAdapter.GastoViewHol
     }
 
     public interface OnItemLongClickListener {
-        void onItemLongClick(Gasto gasto);
+        void onItemLongClick(Gasto gasto); // 🔄 quitamos return
     }
 
     private OnItemLongClickListener longClickListener;
@@ -38,7 +38,7 @@ public class GastoAdapter extends RecyclerView.Adapter<GastoAdapter.GastoViewHol
     @NonNull
     @Override
     public GastoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext(); // Guardamos el contexto para getString
+        context = parent.getContext();
         View vista = LayoutInflater.from(context).inflate(R.layout.item_gasto, parent, false);
         return new GastoViewHolder(vista);
     }
@@ -51,23 +51,21 @@ public class GastoAdapter extends RecyclerView.Adapter<GastoAdapter.GastoViewHol
         holder.textCantidad.setText(String.format(Locale.getDefault(), "%.2f €", gasto.cantidad));
         holder.textCategoria.setText(context.getString(R.string.categoria) + ": " + gasto.categoria);
         holder.textFecha.setText(context.getString(R.string.fecha) + ": " + gasto.fecha);
-
-        // Mostrar el tipo (Ingreso o Gasto)
         holder.textTipo.setText(context.getString(R.string.tipo_gasto) + ": " +
                 (gasto.tipo.equals("ingreso") ? context.getString(R.string.ingreso) : context.getString(R.string.gasto)));
 
-        // Cambiar color según tipo
         if (gasto.tipo.equals("ingreso")) {
-            holder.textCantidad.setTextColor(Color.parseColor("#2e7d32")); // verde
+            holder.textCantidad.setTextColor(Color.parseColor("#2e7d32"));
         } else {
-            holder.textCantidad.setTextColor(Color.parseColor("#c62828")); // rojo
+            holder.textCantidad.setTextColor(Color.parseColor("#c62828"));
         }
 
+        // 🔄 Escucha larga: true siempre porque Android lo exige, no el listener
         holder.itemView.setOnLongClickListener(v -> {
             if (longClickListener != null) {
                 longClickListener.onItemLongClick(gasto);
             }
-            return true;
+            return true; // consumimos el evento aquí
         });
     }
 
@@ -90,7 +88,7 @@ public class GastoAdapter extends RecyclerView.Adapter<GastoAdapter.GastoViewHol
             textCantidad = itemView.findViewById(R.id.textCantidad);
             textCategoria = itemView.findViewById(R.id.textCategoria);
             textFecha = itemView.findViewById(R.id.textFecha);
-            textTipo = itemView.findViewById(R.id.textTipo); // <- asegúrate de tener este en item_gasto.xml
+            textTipo = itemView.findViewById(R.id.textTipo);
         }
     }
 }

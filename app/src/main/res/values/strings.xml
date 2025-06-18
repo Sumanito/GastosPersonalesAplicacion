@@ -4,6 +4,15 @@
     <string name="descripcion">Descripción</string>
     <string name="cantidad">Cantidad (€)</string>
     <string name="categoria">Categoría</string>
+    <string-array name="categorias_predefinidas">
+        <item>Alimentación</item>
+        <item>Transporte</item>
+        <item>Ocio</item>
+        <item>Educación</item>
+        <item>Salud</item>
+        <item>Otros</item>
+    </string-array>
+
     <string name="fecha">Fecha (dd/mm/yyyy)</string>
     <string name="guardar">Guardar</string>
     <string name="ingreso">Ingreso</string>
@@ -34,6 +43,14 @@
     <string name="notificacion_guardado_mensaje">Se ha registrado correctamente un %1$s</string>
     <string name="canal_nombre">Notificaciones</string>
     <string name="canal_descripcion">Canal para notificaciones al guardar elementos</string>
+    <string name="compartir_con">Compartir con...</string>
+    <string name="resetea_la_app">Reinicia la app para aplicar el nuevo idioma</string>
+    <string name="confirmar_cambio_idioma">Aceptar</string>
+    <string name="buscar_categoria">Buscar por categoría</string>
+    <string name="filtrar_categoria">Filtrar por categoría</string>
+    <string name="selecciona_categoria">Selecciona una categoría</string>
+    <string name="mostrar_todo">Mostrar todo</string>
+
 
     <!-- Ajustes -->
     <string name="ajustes">Ajustes</string>

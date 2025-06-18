@@ -4,6 +4,15 @@
     <string name="descripcion">Description</string>
     <string name="cantidad">Amount (€)</string>
     <string name="categoria">Category</string>
+    <string-array name="categorias_predefinidas">
+        <item>Food</item>
+        <item>Transport</item>
+        <item>Entertainment</item>
+        <item>Education</item>
+        <item>Health</item>
+        <item>Other</item>
+    </string-array>
+
     <string name="fecha">Date (dd/mm/yyyy)</string>
     <string name="guardar">Save</string>
     <string name="ingreso">Income</string>
@@ -34,8 +43,16 @@
     <string name="notificacion_guardado_mensaje">A %1$s has been successfully saved</string>
     <string name="canal_nombre">Notifications</string>
     <string name="canal_descripcion">Channel for notifications when saving items</string>
-
+    <string name="compartir_con">Share with...</string>
+    <string name="resetea_la_app">Restart the app to apply the new language</string>
+    <string name="confirmar_cambio_idioma">Accept</string>
+    <string name="buscar_categoria">Search by category</string>
+    <string name="filtrar_categoria">Filter by category</string>
+    <string name="selecciona_categoria">Select a category</string>
     <string name="ajustes">Settings</string>
+    <string name="mostrar_todo">Show all</string>
+
+
     <string-array name="idioma_nombres">
         <item>Spanish</item>
         <item>English</item>

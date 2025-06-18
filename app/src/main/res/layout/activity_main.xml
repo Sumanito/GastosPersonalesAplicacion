@@ -10,6 +10,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+            android:title="@string/app_name"
+            app:titleTextColor="@android:color/white"/>
+        <!-- Campo de búsqueda -->
+        <SearchView
+            android:id="@+id/searchCategoria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:queryHint="@string/buscar_categoria"
+            android:iconifiedByDefault="false"
+            android:layout_margin="8dp"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFiltrarCategoria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_margin="8dp"
+            android:text="@string/filtrar_categoria"
+            android:icon="@android:drawable/ic_menu_search"
+            android:iconPadding="8dp"
+            android:textAllCaps="false"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
         <!-- SALDO -->
         <TextView
             android:id="@+id/textSaldo"

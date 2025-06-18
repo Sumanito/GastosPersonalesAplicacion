@@ -1,15 +1,18 @@
 package com.eneko.gastospersonalesaplicacion;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -19,13 +22,19 @@ import com.eneko.gastospersonalesaplicacion.activities.SettingsActivity;
 import com.eneko.gastospersonalesaplicacion.adapters.GastoAdapter;
 import com.eneko.gastospersonalesaplicacion.database.AppDatabase;
 import com.eneko.gastospersonalesaplicacion.model.Gasto;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+
+import android.os.Environment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         db = Room.databaseBuilder(getApplicationContext(),
                         AppDatabase.class, "gastos-db")
@@ -45,6 +56,24 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         textSaldo = findViewById(R.id.textSaldo);
+        MaterialButton btnFiltrarCategoria = findViewById(R.id.btnFiltrarCategoria);
+        btnFiltrarCategoria.setOnClickListener(v -> mostrarDialogoCategorias());
+
+        SearchView searchView = findViewById(R.id.searchCategoria);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filtrarPorCategoria(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filtrarPorCategoria(newText);
+                return true;
+            }
+        });
+
         recyclerGastos = findViewById(R.id.recyclerGastos);
         FloatingActionButton fabAgregar = findViewById(R.id.fabAgregar);
         FloatingActionButton fabExportar = findViewById(R.id.fabExportar);
@@ -79,8 +108,8 @@ public class MainActivity extends AppCompatActivity {
                     })
                     .setNegativeButton(getString(R.string.cancelar), null)
                     .show();
-            return true;
         });
+
     }
 
     private void actualizarSaldo() {
@@ -103,6 +132,24 @@ public class MainActivity extends AppCompatActivity {
         }
 
         File archivo = new File(getExternalFilesDir(null), "gastos_exportados.txt");
+
+        try (FileOutputStream fos = new FileOutputStream(archivo)) {
+            fos.write(data.toString().getBytes());
+
+            Toast.makeText(this, getString(R.string.exportado_en, archivo.getAbsolutePath()), Toast.LENGTH_LONG).show();
+
+            Uri uri = FileProvider.getUriForFile(this, getPackageName() + ".provider", archivo);
+
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(Intent.createChooser(intent, getString(R.string.compartir_con)));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, getString(R.string.error_exportar), Toast.LENGTH_SHORT).show();
+        }
 
         try (FileOutputStream fos = new FileOutputStream(archivo)) {
             fos.write(data.toString().getBytes());
@@ -136,4 +183,38 @@ public class MainActivity extends AppCompatActivity {
         adapter.setListaGastos(gastosActualizados);
         actualizarSaldo();
     }
+
+    private void filtrarPorCategoria(String categoriaBuscada) {
+        List<Gasto> todosLosGastos = db.gastoDao().getAll();
+        List<Gasto> filtrados = new ArrayList<>();
+
+        for (Gasto g : todosLosGastos) {
+            if (g.categoria.toLowerCase().contains(categoriaBuscada.toLowerCase())) {
+                filtrados.add(g);
+            }
+        }
+
+        adapter.setListaGastos(filtrados);
+    }
+    private void mostrarDialogoCategorias() {
+        final String[] categorias = {
+                "Salud", "Ocio", "Comida", "Transporte", "Educación", "Otros", getString(R.string.mostrar_todo)
+        };
+
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.selecciona_categoria))
+                .setItems(categorias, (dialog, which) -> {
+                    if (categorias[which].equals(getString(R.string.mostrar_todo))) {
+                        // Mostrar todos los gastos
+                        List<Gasto> todos = db.gastoDao().getAll();
+                        adapter.setListaGastos(todos);
+                    } else {
+                        filtrarPorCategoria(categorias[which]);
+                    }
+                })
+                .setNegativeButton(R.string.cancelar, null)
+                .show();
+    }
+
+
 }
