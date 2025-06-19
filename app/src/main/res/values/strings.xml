@@ -31,6 +31,9 @@
 
     <string name="agregar">Agregar Gasto</string>
     <string name="gasto_guardado">Gasto guardado</string>
+    <string name="gasto_modificado">Gasto modificado correctamente</string>
+    <string name="confirmar_modificacion">¿Seguro que quieres guardar los cambios?</string>
+
     <string name="gasto_eliminado">Gasto eliminado</string>
     <string name="eliminar">Eliminar gasto</string>
     <string name="confirmar_eliminar">¿Seguro que quieres eliminar este gasto?</string>
@@ -50,6 +53,16 @@
     <string name="filtrar_categoria">Filtrar por categoría</string>
     <string name="selecciona_categoria">Selecciona una categoría</string>
     <string name="mostrar_todo">Mostrar todo</string>
+    <string name="tema">Tema</string>
+    <string name="elige_tema">Elige el tema de la aplicación</string>
+    <string-array name="tema_nombres">
+        <item>Claro</item>
+        <item>Oscuro</item>
+    </string-array>
+    <string-array name="tema_valores">
+        <item>claro</item>
+        <item>oscuro</item>
+    </string-array>
 
 
     <!-- Ajustes -->

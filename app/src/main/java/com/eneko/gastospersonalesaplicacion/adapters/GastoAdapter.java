@@ -26,13 +26,22 @@ public class GastoAdapter extends RecyclerView.Adapter<GastoAdapter.GastoViewHol
     }
 
     public interface OnItemLongClickListener {
-        void onItemLongClick(Gasto gasto); // 🔄 quitamos return
+        void onItemLongClick(Gasto gasto);
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Gasto gasto);
     }
 
     private OnItemLongClickListener longClickListener;
+    private OnItemClickListener clickListener;
 
     public void setOnItemLongClickListener(OnItemLongClickListener listener) {
         this.longClickListener = listener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.clickListener = listener;
     }
 
     @NonNull
@@ -60,12 +69,17 @@ public class GastoAdapter extends RecyclerView.Adapter<GastoAdapter.GastoViewHol
             holder.textCantidad.setTextColor(Color.parseColor("#c62828"));
         }
 
-        // 🔄 Escucha larga: true siempre porque Android lo exige, no el listener
+        holder.itemView.setOnClickListener(v -> {
+            if (clickListener != null) {
+                clickListener.onItemClick(gasto);
+            }
+        });
+
         holder.itemView.setOnLongClickListener(v -> {
             if (longClickListener != null) {
                 longClickListener.onItemLongClick(gasto);
             }
-            return true; // consumimos el evento aquí
+            return true;
         });
     }
 

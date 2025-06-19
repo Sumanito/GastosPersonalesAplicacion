@@ -13,5 +13,11 @@ public class SettingsActivity extends AppCompatActivity {
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();
     }
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK); // señal para que MainActivity se reinicie
+        super.onBackPressed();
+    }
+
 }
 

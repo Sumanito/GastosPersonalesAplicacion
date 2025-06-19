@@ -31,6 +31,9 @@
 
     <string name="agregar">Add Expense</string>
     <string name="gasto_guardado">Expense saved</string>
+    <string name="gasto_modificado">Transaction successfully updated</string>
+    <string name="confirmar_modificacion">Are you sure you want to save the changes?</string>
+
     <string name="gasto_eliminado">Expense deleted</string>
     <string name="eliminar">Delete expense</string>
     <string name="confirmar_eliminar">Are you sure you want to delete this expense?</string>
@@ -51,6 +54,16 @@
     <string name="selecciona_categoria">Select a category</string>
     <string name="ajustes">Settings</string>
     <string name="mostrar_todo">Show all</string>
+    <string name="tema">Theme</string>
+    <string name="elige_tema">Choose the app theme</string>
+    <string-array name="tema_nombres">
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+    <string-array name="tema_valores">
+        <item>claro</item>
+        <item>oscuro</item>
+    </string-array>
 
 
     <string-array name="idioma_nombres">

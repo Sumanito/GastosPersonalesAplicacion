@@ -1,13 +1,13 @@
 package com.eneko.gastospersonalesaplicacion.activities;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -21,32 +21,32 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
+
+        // Tema claro / oscuro
+        ListPreference temaPref = findPreference("tema");
+        if (temaPref != null) {
+            temaPref.setOnPreferenceChangeListener((preference, newValue) -> {
+                aplicarTema(newValue.toString());
+                return true;
+            });
+        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_settings, container, false);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        getChildFragmentManager()
-                .beginTransaction()
-                .replace(R.id.preferences_container, new PreferenceFragmentCompat() {
-                    @Override
-                    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-                        setPreferencesFromResource(R.xml.preferences, rootKey);
-                    }
-                })
-                .commit();
-
-        Button btnAplicar = root.findViewById(R.id.btnAplicarIdioma);
-        btnAplicar.setOnClickListener(v -> {
-            String idioma = PreferenceManager.getDefaultSharedPreferences(getContext())
-                    .getString("idioma", "es");
-            cambiarIdioma(idioma);
-        });
-
-        return root;
+        Button btnAplicar = view.findViewById(R.id.btnAplicarIdioma);
+        if (btnAplicar != null) {
+            btnAplicar.setOnClickListener(v -> {
+                String idioma = PreferenceManager.getDefaultSharedPreferences(getContext())
+                        .getString("idioma", "es");
+                cambiarIdioma(idioma);
+                requireActivity().setResult(Activity.RESULT_OK);
+                requireActivity().finish();
+            });
+        }
     }
-
 
     private void cambiarIdioma(String idioma) {
         Locale nuevaLocale = new Locale(idioma);
@@ -66,4 +66,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         requireActivity().recreate();
     }
+
+    private void aplicarTema(String valor) {
+        if ("oscuro".equals(valor)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+        requireActivity().recreate();
+    }
+
 }

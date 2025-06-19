@@ -34,7 +34,7 @@
             android:layout_margin="8dp"
             android:text="@string/filtrar_categoria"
             android:icon="@android:drawable/ic_menu_search"
-            android:iconPadding="8dp"
+            app:iconPadding="8dp"
             android:textAllCaps="false"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 

@@ -1,6 +1,8 @@
 package com.eneko.gastospersonalesaplicacion;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,7 +14,9 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.FileProvider;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -42,10 +46,28 @@ public class MainActivity extends AppCompatActivity {
     private GastoAdapter adapter;
     private AppDatabase db;
     private TextView textSaldo;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // ✅ APLICAR IDIOMA
+        String idioma = prefs.getString("idioma", "es"); // Español por defecto
+        Locale locale = new Locale(idioma);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.setLocale(locale);
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+        // ✅ APLICAR TEMA
+        String tema = prefs.getString("tema", "claro");
+        if (tema.equals("oscuro")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+        super.onCreate(savedInstanceState); // ¡Importante que esto venga después!
+
         setContentView(R.layout.activity_main);
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -95,6 +117,13 @@ public class MainActivity extends AppCompatActivity {
             exportarGastosComoTxt(gastosParaExportar);
         });
 
+        adapter.setOnItemClickListener(gasto -> {
+            Intent intent = new Intent(MainActivity.this, AddEditActivity.class);
+            intent.putExtra("gasto", gasto); // Pasamos el gasto a modificar
+            startActivity(intent);
+        });
+
+
         adapter.setOnItemLongClickListener(gasto -> {
             new AlertDialog.Builder(MainActivity.this)
                     .setTitle(getString(R.string.eliminar))
@@ -109,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
                     .setNegativeButton(getString(R.string.cancelar), null)
                     .show();
         });
-
     }
 
     private void actualizarSaldo() {
@@ -170,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_ajustes) {
             Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, 123);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -215,6 +243,15 @@ public class MainActivity extends AppCompatActivity {
                 .setNegativeButton(R.string.cancelar, null)
                 .show();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 123 && resultCode == RESULT_OK) {
+            recreate(); // 🔄 recarga MainActivity con el nuevo idioma
+        }
+    }
+
 
 
 }

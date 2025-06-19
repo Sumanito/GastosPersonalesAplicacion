@@ -1,5 +1,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <ListPreference
+        android:key="tema"
+        android:title="@string/tema"
+        android:entries="@array/tema_nombres"
+        android:entryValues="@array/tema_valores"
+        android:defaultValue="claro"
+        android:summary="@string/elige_tema"/>
 
     <ListPreference
         android:key="idioma"
